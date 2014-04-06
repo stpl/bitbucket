@@ -169,6 +169,17 @@ module BitBucket
 
     alias :find :get
 
+    # Lists public repos for a user ( works only when the endpoint 2.0)
+    #
+    # = Examples
+    #  bitbucket = BitBucket.new
+    #  bitbucket.repos.public 'user-name'
+    #
+    def public(user_name)
+      _validate_user_param(user_name)
+      get_request("/repositories/#{user_name}/")
+    end
+
     # List repositories for the authenticated user
     #
     # = Examples

@@ -19,6 +19,12 @@ module BitBucket
         raise ArgumentError, "[user] parameter cannot be nil" if user_name.nil?
         raise ArgumentError, "[repo] parameter cannot be nil" if repo_name.nil?
       end
+      
+      # Check if user parameters is passed
+      #
+      def _validate_user_param(user_name)
+        raise ArgumentError, "[user] parameter cannot be nil" if user_name.nil?
+      end
 
     end # Presence
   end # Validations

@@ -75,9 +75,9 @@ module BitBucket
     def stack(options={}, &block)
       @stack ||= begin
         if block_given?
-          Faraday::Builder.new(&block)
+          Faraday::RackBuilder.new(&block)
         else
-          Faraday::Builder.new(&default_middleware(options))
+          Faraday::RackBuilder.new(&default_middleware(options))
         end
       end
     end
@@ -89,7 +89,9 @@ module BitBucket
       clear_cache unless options.empty?
       puts "OPTIONS:#{conn_options.inspect}" if ENV['DEBUG']
 
-      @connection ||= Faraday.new(conn_options.merge(:builder => stack(options)))
+      @connection ||= Faraday.new(conn_options.merge(:builder => stack(options))) do |faraday|
+        faraday.response :logger if ENV['DEBUG']
+      end
     end
 
   end # Connection
